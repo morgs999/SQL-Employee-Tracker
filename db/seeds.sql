@@ -1,4 +1,4 @@
-INSERT INTO department (name) VALUES
+INSERT INTO departments (name) VALUES
     ("Science/R&D"),
     ("Piloting"),
     ("Delivery Personnel"),
@@ -7,7 +7,7 @@ INSERT INTO department (name) VALUES
     ("Janitorial"),
     ("Assistants");
 
-INSERT INTO role(title, salary, department_id) VALUES
+INSERT INTO roles(title, salary, department_id) VALUES
     -- Science/R&D -1
     ("Founder, Professor, Lead Scientist", 1000000.00, 1),
     ("Lab Assistant", 60000.00, 1),
@@ -24,7 +24,7 @@ INSERT INTO role(title, salary, department_id) VALUES
     ("Head Accountant", 150000.00, 4),
     ("Accounting Assistant", 48000.00, 4),
     -- Medical(?) -5
-    ("Doctor", 100.00, 5)
+    ("Doctor", 100.00, 5),
     -- Janitorial -6
     ("Executive Janitor", 36001.00, 6),
     ("Assistant Janitor", 35999.00, 6),
@@ -34,7 +34,7 @@ INSERT INTO role(title, salary, department_id) VALUES
     ("Fuel Assistant", 0.00, 7)
 ;
 
-INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES
+INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES
     ("Hubert", "Farnsworth", 1, NULL),
     ("Hermes", "Conrad", 10, NULL),
     ("Turanga", "Leela", 4, NULL),
