@@ -139,6 +139,48 @@ const addRole = async () => {
     await setTimeout(function () { mainMenu() }, 2000);
 }
 
+const addEmployee = async () => {
+    const [roleChoices] = await db.promise().query('SELECT * FROM roles');
+
+    const [employeeChoices] = await db.promise().query('SELECT * FROM employees');
+
+    await inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Employee First Name:  ',
+            name: 'firstName'
+        },
+        {
+            type: 'input',
+            message: 'Employee Last Name:  ',
+            name: 'lastName'
+        },
+        {
+            type: 'list',
+            message: 'Employee Role:  ',
+            name: 'empRole',
+            choices: roleChoices.map((role) => ({
+                name: role.title,
+                value: role.id,
+            }))
+        },
+        {
+            type: 'list',
+            message: 'Employee Manager:  ',
+            name: 'empMan',
+            choices: employeeChoices.map((employee) => ({
+                name: `${employee.first_name} ${employee.last_name}`,
+                value: employee.id,
+            }))
+        }
+    ]).then((res) => {
+        const newEmployee = [res.firstName, res.lastName, res.empRole, res.empMan];
+        db.query('INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', newEmployee);
+        console.log(`${res.firstName.toUpperCase()} ${res.lastName.toUpperCase()} the employee added.`);
+    })
+    await setTimeout(function () { mainMenu() }, 2000);
+}
+
 db.connect((err) => {
     if (err) throw err;
     console.log('Connected to employee_db.')
