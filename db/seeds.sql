@@ -9,7 +9,7 @@ INSERT INTO departments (name) VALUES
 
 INSERT INTO roles(title, salary, department_id) VALUES
     -- Science/R&D -1
-    ("Founder, Professor, Lead Scientist", 1000000.00, 1),
+    ("Professor, Lead Scientist", 1000000.00, 1),
     ("Lab Assistant", 60000.00, 1),
     ("Clone Assistant", 1.00, 1),
     -- Piloting -2
