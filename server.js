@@ -28,7 +28,7 @@ const printLogo = () => console.log(
 
 function mainMenu() {
     // console.log("At the main menu.");
-    inquirer.prompt(questions = [
+    inquirer.prompt([
         {
             type: 'list',
             name: 'mainMenu',
@@ -45,21 +45,21 @@ function mainMenu() {
             ],
         },
     ])
-        .then(answer => {
+        .then(res => {
             // console.log(answer);
-            if (answer.mainMenu === 'View All Departments') {
+            if (res.mainMenu === 'View All Departments') {
                 return viewDepartments();
-            } else if (answer.mainMenu === 'View All Roles') {
+            } else if (res.mainMenu === 'View All Roles') {
                 return viewRoles();
-            } else if (answer.mainMenu === 'View All Employees') {
+            } else if (res.mainMenu === 'View All Employees') {
                 return viewEmployees();
-            } else if (answer.mainMenu === 'Add Department') {
+            } else if (res.mainMenu === 'Add Department') {
                 return addDepartment();
-            } else if (answer.mainMenu === 'Add Role') {
+            } else if (res.mainMenu === 'Add Role') {
                 return addRole();
-            } else if (answer.mainMenu === 'Add Employee') {
+            } else if (res.mainMenu === 'Add Employee') {
                 return addEmployee();
-            } else if (answer.mainMenu === 'Update Employee Role') {
+            } else if (res.mainMenu === 'Update Employee Role') {
                 return updateEmployeeRole();
             } else {
                 process.exit();
@@ -95,14 +95,8 @@ const addDepartment = async () => {
         name: 'addDept'
     }])
         .then((res) => {
-            db.query('INSERT INTO departments(name) VALUES (?)', res.addDept, function (err, results) {
-                if (err) {
-                    console.error(err);
-                    return
-                }
-                console.log(`${res.addDept.toUpperCase()} department added.`);
-            }
-            )
+            db.query('INSERT INTO departments(name) VALUES (?)', res.addDept);
+            console.log(`${res.addDept.toUpperCase()} department added.`);
         });
     await setTimeout(function () { mainMenu() }, 2000);
 };
@@ -180,6 +174,37 @@ const addEmployee = async () => {
     })
     await setTimeout(function () { mainMenu() }, 2000);
 }
+
+const updateEmployeeRole = async () => {
+    const [employeeChoices] = await db.promise().query('SELECT * FROM employees');
+    const [roleChoices] = await db.promise().query('SELECT * FROM roles');
+
+    await inquirer.prompt([
+        {
+            type: 'list',
+            message: 'Choose an Employee:  ',
+            name: 'employee',
+            choices: employeeChoices.map((employee) => ({
+                name: `${employee.first_name} ${employee.last_name}`,
+                value: employee.first_name,
+            }))
+        },
+        {
+            type: 'list',
+            message: "Employee's New Role:  ",
+            name: 'empRole',
+            choices: roleChoices.map((role) => ({
+                name: role.title,
+                value: role.id,
+            }))
+        }
+    ]).then((res) => {
+        const newRole = [res.empRole, res.employee];
+        db.query('UPDATE employees SET role_id=? where first_name=?', newRole);
+        console.log(`${res.employee.toUpperCase()}'s role changed.`);
+    })
+    await setTimeout(function () { mainMenu() }, 2000);
+};
 
 db.connect((err) => {
     if (err) throw err;

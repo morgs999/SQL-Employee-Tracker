@@ -5,30 +5,31 @@ INSERT INTO departments (name) VALUES
     ("Accounting"),
     ("Medical(?)"),
     ("Janitorial"),
-    ("Assistants");
+    ("Assistants")
+;
 
 INSERT INTO roles(title, salary, department_id) VALUES
-    -- Science/R&D -1
+    -- Science/R&D - dept id 1
     ("Professor, Lead Scientist", 1000000.00, 1),
     ("Lab Assistant", 60000.00, 1),
     ("Clone Assistant", 1.00, 1),
-    -- Piloting -2
+    -- Piloting - dept id 2
     ("Current Pilot", 200000.00, 2),
     ("Former Pilot", 20.00, 2),
     ("First Mate", 50000.00, 2),
-    -- Delivery Personnel -3
+    -- Delivery Personnel - dept id 3
     ("Delivery Boy", 36000.00, 3),
     ("Delivery Girl", 40000.00, 3),
     ("Delivery Robot", 0.00, 3),
-    -- Accounting -4
+    -- Accounting - dept id 4
     ("Head Accountant", 150000.00, 4),
     ("Accounting Assistant", 48000.00, 4),
-    -- Medical(?) -5
+    -- Medical(?) - dept id 5
     ("Doctor", 100.00, 5),
-    -- Janitorial -6
+    -- Janitorial - dept id 6
     ("Executive Janitor", 36001.00, 6),
     ("Assistant Janitor", 35999.00, 6),
-    -- Assistants -7
+    -- Assistants - dept id 7
     ("Assistant Robot", 0.00, 7),
     ("Delivery Assistant", 100.00, 7),
     ("Fuel Assistant", 0.00, 7)
