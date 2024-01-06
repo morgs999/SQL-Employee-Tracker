@@ -63,11 +63,9 @@ function mainMenu() {
                 return updateEmployeeRole();
             } else {
                 process.exit();
-            }
-            ;
-
+            };
         })
-}
+};
 
 const viewDepartments = () => {
     db.execute('SELECT * FROM departments', function (err, results) {
@@ -90,6 +88,24 @@ const viewEmployees = () => {
     setTimeout(function () { mainMenu() }, 2000);
 };
 
+const addDepartment = async () => {
+    await inquirer.prompt([{
+        type: 'input',
+        message: 'What department would  you like to add?',
+        name: 'addDept'
+    }])
+        .then((res) => {
+            db.query('INSERT INTO departments(name) VALUES (?)', res.addDept, function (err, results) {
+                if (err) {
+                    console.error(err);
+                    return
+                }
+                console.log(`${res.addDept.toUpperCase()} department added.`);
+            }
+            )
+        });
+    await setTimeout(function () { mainMenu() }, 2000);
+};
 
 db.connect((err) => {
     if (err) throw err;
