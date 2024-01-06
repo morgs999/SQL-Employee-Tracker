@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const logo = require('asciiart-logo');
 
-
+// Connect to SQL Database
 const db = mysql.createConnection(
     {
         host: 'localhost',
@@ -12,6 +12,7 @@ const db = mysql.createConnection(
     }
 );
 
+// Print fancy company logo on startup
 const printLogo = () => console.log(
     logo({
         name: 'Planet Express',
@@ -26,6 +27,7 @@ const printLogo = () => console.log(
         .render()
 );
 
+// Menu for user to choose view or update options from
 function mainMenu() {
     // console.log("At the main menu.");
     inquirer.prompt([
@@ -67,6 +69,7 @@ function mainMenu() {
         })
 };
 
+// View All Departments in SQL Table
 const viewDepartments = () => {
     db.execute('SELECT * FROM departments', function (err, results) {
         console.table(results);
@@ -74,6 +77,7 @@ const viewDepartments = () => {
     setTimeout(function () { mainMenu() }, 2000);
 };
 
+// View All Roles in SQL Table
 const viewRoles = () => {
     db.execute('SELECT roles.id, roles.title, departments.name AS department, roles.salary FROM roles JOIN departments ON roles.department_id=departments.id', function (err, results) {
         console.table(results);
@@ -81,6 +85,7 @@ const viewRoles = () => {
     setTimeout(function () { mainMenu() }, 2000);
 };
 
+// View All Employees in SQL Table
 const viewEmployees = () => {
     db.execute('SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary, employees.manager_id FROM employees JOIN roles ON employees.role_id=roles.id JOIN departments ON roles.department_id=departments.id', function (err, results) {
         console.table(results);
@@ -88,6 +93,7 @@ const viewEmployees = () => {
     setTimeout(function () { mainMenu() }, 2000);
 };
 
+// Add a Department to the Employee Database
 const addDepartment = async () => {
     await inquirer.prompt([{
         type: 'input',
@@ -101,6 +107,7 @@ const addDepartment = async () => {
     await setTimeout(function () { mainMenu() }, 2000);
 };
 
+// Add an Employee Role/Job Title to the Employee Database, matched to a Department
 const addRole = async () => {
     const [deptChoices] = await db.promise().query('SELECT * FROM departments');
 
@@ -133,6 +140,8 @@ const addRole = async () => {
     await setTimeout(function () { mainMenu() }, 2000);
 }
 
+// Add an Employee to the Employee Database
+// Including adding their Role/Job Title and and matching to their Manager from the Employees list
 const addEmployee = async () => {
     const [roleChoices] = await db.promise().query('SELECT * FROM roles');
 
@@ -175,6 +184,7 @@ const addEmployee = async () => {
     await setTimeout(function () { mainMenu() }, 2000);
 }
 
+// Update an existing Employees Role/Job Title
 const updateEmployeeRole = async () => {
     const [employeeChoices] = await db.promise().query('SELECT * FROM employees');
     const [roleChoices] = await db.promise().query('SELECT * FROM roles');
@@ -206,6 +216,7 @@ const updateEmployeeRole = async () => {
     await setTimeout(function () { mainMenu() }, 2000);
 };
 
+// The INIT function, connecting to the SQL DB, printing the fancy logo, and running the Main Menu on startup
 db.connect((err) => {
     if (err) throw err;
     console.log('Connected to employee_db.')
