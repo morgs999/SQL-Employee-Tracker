@@ -19,10 +19,10 @@ Then run `npm start`.
 
 
 #### Credits
-https://futurama.fandom.com/wiki/Planet_Express_Crew<br>
-https://www.npmjs.com/package/inquirer<br>
-https://www.npmjs.com/package/mysql2<br>
-https://www.npmjs.com/package/asciiart-logo<br>
+[Employee Data for employees_db](https://futurama.fandom.com/wiki/Planet_Express_Crew)<br>
+[Inquirer NPM Library](https://www.npmjs.com/package/inquirer)<br>
+[MYSQL2 NPM Library](https://www.npmjs.com/package/mysql2)<br>
+[ASCII ART Logo NPM Library](https://www.npmjs.com/package/asciiart-logo)<br>
 
 #### License
 No License provided.

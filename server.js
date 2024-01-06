@@ -48,7 +48,7 @@ function mainMenu() {
         },
     ])
         .then(res => {
-            // console.log(answer);
+            // console.log(res);
             if (res.mainMenu === 'View All Departments') {
                 return viewDepartments();
             } else if (res.mainMenu === 'View All Roles') {
@@ -144,7 +144,6 @@ const addRole = async () => {
 // Including adding their Role/Job Title and and matching to their Manager from the Employees list
 const addEmployee = async () => {
     const [roleChoices] = await db.promise().query('SELECT * FROM roles');
-
     const [employeeChoices] = await db.promise().query('SELECT * FROM employees');
 
     await inquirer.prompt([
@@ -219,7 +218,7 @@ const updateEmployeeRole = async () => {
 // The INIT function, connecting to the SQL DB, printing the fancy logo, and running the Main Menu on startup
 db.connect((err) => {
     if (err) throw err;
-    console.log('Connected to employee_db.')
+    console.log('Connected to employees_db.');
     setTimeout(function () { printLogo() }, 1000);
     setTimeout(function () { mainMenu() }, 3000);
 });
