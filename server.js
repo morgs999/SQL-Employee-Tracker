@@ -107,6 +107,38 @@ const addDepartment = async () => {
     await setTimeout(function () { mainMenu() }, 2000);
 };
 
+const addRole = async () => {
+    const [deptChoices] = await db.promise().query('SELECT * FROM departments');
+
+    await inquirer.prompt([
+        {
+            type: 'input',
+            message: "What's the name of the role?",
+            name: 'addRole'
+        },
+        {
+            type: 'input',
+            message: "What's the salary for the role?",
+            name: 'addSalary'
+        },
+        {
+            type: 'list',
+            message: 'What department is this role in?',
+            name: 'roleDept',
+            choices: deptChoices.map((department) => ({
+                name: department.name,
+                value: department.id,
+            })
+            )
+        }
+    ]).then((res) => {
+        const newRole = [res.addRole, res.addSalary, res.roleDept];
+        db.query('INSERT INTO roles(title, salary, department_id) VALUES (?, ?, ?)', newRole);
+        console.log(`${res.addRole.toUpperCase()} role added.`);
+    })
+    await setTimeout(function () { mainMenu() }, 2000);
+}
+
 db.connect((err) => {
     if (err) throw err;
     console.log('Connected to employee_db.')
